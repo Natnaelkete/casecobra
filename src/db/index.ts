@@ -1,23 +1,21 @@
 import { PrismaClient } from "@prisma/client";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  var cachedPrisma: PrismaClient;
-}
-
-let prisma: PrismaClient;
-if (process.env.NODE_ENV === "production") {
-  prisma = new PrismaClient();
-} else {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  if (!global.cachedPrisma) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    global.cachedPrisma = new PrismaClient();
+  // Extend the NodeJS global interface to include cachedPrisma
+  namespace NodeJS {
+    interface Global {
+      cachedPrisma?: PrismaClient;
+    }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  prisma = global.cachedPrisma;
+  // For `globalThis` compatibility with TypeScript
+  var cachedPrisma: PrismaClient | undefined;
+}
+
+const prisma = global.cachedPrisma || new PrismaClient();
+
+if (process.env.NODE_ENV !== "production") {
+  global.cachedPrisma = prisma;
 }
 
 export const db = prisma;
