@@ -1,27 +1,23 @@
 import { PrismaClient } from "@prisma/client";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare global {
-  var prisma: PrismaClient | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  var cachedPrisma: PrismaClient;
 }
 
-const db = globalThis.prisma || new PrismaClient();
-if (process.env.NODE_ENV !== "production") globalThis.prisma = db;
+let prisma: PrismaClient;
+if (process.env.NODE_ENV === "production") {
+  prisma = new PrismaClient();
+} else {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  if (!global.cachedPrisma) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    global.cachedPrisma = new PrismaClient();
+  }
 
-export default db;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  prisma = global.cachedPrisma;
+}
 
-// declare global {
-//   let cachedPrisma: PrismaClient;
-// }
-
-// let prisma: PrismaClient;
-// if (process.env.NODE_ENV === "production") {
-//   prisma = new PrismaClient();
-// } else {
-//   if (!global.cachedPrisma) {
-//     global.cachedPrisma = new PrismaClient();
-//   }
-
-//   prisma = global.cachedPrisma;
-// }
-
-// export const db = prisma;
+export const db = prisma;

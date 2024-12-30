@@ -132,6 +132,7 @@ const DesignConfigurator = ({
 
       await startUpload([file], { configId });
     } catch (error) {
+      console.log(error);
       toast({
         title: "Something went wrong",
         description:
