@@ -6,7 +6,7 @@ import { getAuthStatus } from "./action";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
-const page = () => {
+const Page = () => {
   const [configId, setConfigId] = useState<string | null>(null);
   const router = useRouter();
 
@@ -43,4 +43,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

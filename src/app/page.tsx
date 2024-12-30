@@ -16,7 +16,7 @@ export default function Home() {
               <div className="absolute w-28 left-0 -top-20 hidden lg:block">
                 {/* i forgot this div right here in the video, it's purely visual gradient and looks nice */}
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t via-slate-50/50 from-slate-50 h-28" />
-                <img src="/snake-1.png" className="w-full" />
+                <img src="/snake-1.png" className="w-full" alt="snake" />
               </div>
               <h1 className="relative w-fit tracking-tight text-balance mt-16 font-bold !leading-tight text-gray-800 text-5xl md:text-6xl lg:text-6xl">
                 Your Image on a{" "}
@@ -97,10 +97,12 @@ export default function Home() {
             <div className="relative md:max-w-xl">
               <img
                 src="/your-image.png"
+                alt="your image"
                 className="absolute w-40 lg:w-52 left-56 -top-20 select-none hidden sm:block lg:hidden xl:block"
               />
               <img
                 src="/line.png"
+                alt="line image"
                 className="absolute w-20 -left-6 -bottom-6 select-none"
               />
               <Phone className="w-64" imgSrc="/testimonials/1.jpg" />
@@ -120,7 +122,11 @@ export default function Home() {
               </span>{" "}
               say
             </h2>
-            <img src="/snake-2.png" className="w-24 order-0 lg:order-2" />
+            <img
+              src="/snake-2.png"
+              className="w-24 order-0 lg:order-2"
+              alt="snake image"
+            />
           </div>
 
           <div className="mx-auto grid max-w-2xl grid-cols-1 px-4 lg:mx-0 lg:max-w-none lg:grid-cols-2 gap-y-16">
@@ -221,6 +227,7 @@ export default function Home() {
             <div className="relative flex flex-col items-center md:grid grid-cols-2 gap-40">
               <img
                 src="/arrow.png"
+                alt="arrow image"
                 className="absolute top-[25rem] md:top-1/2 -translate-y-1/2
                z-10 left-1/2 -translate-x-1/2 rotate-90 md:rotate-0"
               />
@@ -228,6 +235,7 @@ export default function Home() {
               <div className="relative h-80 md:h-full w-full md:justify-self-end max-w-sm rounded-xl g-gray-900 ring-inset ring-gray-900/10 lg:rounded-2xl">
                 <img
                   src="/horse.jpg"
+                  alt="horse image"
                   className="rounded-md object-cover bg-white shadow-2xl ring-1 ring-gray-900/10 h-full w-full"
                 />
               </div>
