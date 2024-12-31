@@ -1,21 +1,18 @@
 import { PrismaClient } from "@prisma/client";
 
 declare global {
-  // Extend the NodeJS global interface to include cachedPrisma
-  namespace NodeJS {
-    interface Global {
-      cachedPrisma?: PrismaClient;
-    }
-  }
-
-  // For `globalThis` compatibility with TypeScript
-  var cachedPrisma: PrismaClient | undefined;
+  var cachedPrisma: PrismaClient;
 }
 
-const prisma = global.cachedPrisma || new PrismaClient();
+let prisma: PrismaClient;
+if (process.env.NODE_ENV === "production") {
+  prisma = new PrismaClient();
+} else {
+  if (!global.cachedPrisma) {
+    global.cachedPrisma = new PrismaClient();
+  }
 
-if (process.env.NODE_ENV !== "production") {
-  global.cachedPrisma = prisma;
+  prisma = global.cachedPrisma;
 }
 
 export const db = prisma;
