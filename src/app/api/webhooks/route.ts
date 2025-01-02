@@ -3,6 +3,10 @@ import { stripe } from "@/lib/stripe";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { Resend } from "resend";
+import OrderReceivedEmail from "@/components/emails/OrderReceivedEmail";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
@@ -38,7 +42,7 @@ export async function POST(req: Request) {
       const shippingAddress = session.shipping_details!.address;
       const billingAddress = session.customer_details!.address;
 
-      await db.order.update({
+      const updatedOrder = await db.order.update({
         where: { id: orderId },
         data: {
           isPaid: true,
@@ -63,6 +67,25 @@ export async function POST(req: Request) {
             },
           },
         },
+      });
+
+      await resend.emails.send({
+        from: "CaseCobra <ketemanatnael023@gmail.com>",
+        to: [event.data.object.customer_details.email],
+        subject: "Thanks for your order",
+        react: OrderReceivedEmail({
+          orderId,
+          OrderDate: updatedOrder.createdAt.toLocaleDateString(),
+          //  @ts-expect-error: it causes type error but the code will work
+          shippingAddress: {
+            name: session.customer_details!.name!,
+            city: shippingAddress!.city!,
+            country: shippingAddress!.country!,
+            street: shippingAddress!.line1!,
+            postalCode: shippingAddress!.postal_code!,
+            state: shippingAddress!.state,
+          },
+        }),
       });
     }
 

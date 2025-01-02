@@ -55,6 +55,7 @@ const PhonePreview = ({
             caseBackgroundColor
           )}
           src={croppedImageUrl}
+          alt="Your cropped image"
         />
       </div>
 
